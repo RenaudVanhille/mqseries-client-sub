@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Promise">
+      <UniqueIdentifier>{91209842-5517-4f33-b17e-27ce00e97dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sub">
+      <UniqueIdentifier>{d4c59752-1358-4bb4-bc69-272d1f639803}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Promise\CPromiseData.cpp">
+      <Filter>Promise</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cc" />
+    <ClCompile Include="Sub\CSub.cpp">
+      <Filter>Sub</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Promise\CPromiseData.h">
+      <Filter>Promise</Filter>
+    </ClInclude>
+    <ClInclude Include="Promise\CPromiseRunner.h">
+      <Filter>Promise</Filter>
+    </ClInclude>
+    <ClInclude Include="Close.h" />
+    <ClInclude Include="CSingleton.h" />
+    <ClInclude Include="Init.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Sub\CSub.h">
+      <Filter>Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="Sub\ISubListener.h">
+      <Filter>Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="On.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="binding.gyp" />
+    <None Include="CSingleton.inl" />
+    <None Include="index.js" />
+    <None Include="package.json" />
+    <None Include="README.md" />
+  </ItemGroup>
+</Project>
