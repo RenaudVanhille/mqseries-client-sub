@@ -28,9 +28,9 @@ namespace renaud
 
 	struct SSendData
 	{
-		TSavedFunction m_func;
+		TVecEventFunctions m_vecCB;
 		std::string strMessage;
-		uv_work_t request;
+		uv_work_t req;
 	};
 
 	static void DoSendAsync(uv_work_t* req)
@@ -48,8 +48,9 @@ namespace renaud
 			String::NewFromUtf8(Isolate::GetCurrent(), pData->strMessage.c_str())
 		};
 
-		Local<Function>::New(isolate, pData->m_func)->Call(isolate->GetCurrentContext()->Global(), 1, args);
-
+		for (TVecEventFunctions::iterator it = pData->m_vecCB.begin(); it != pData->m_vecCB.end(); ++it)
+			Local<Function>::New(isolate, (*it))->Call(isolate->GetCurrentContext()->Global(), 1, args);
+		
 		delete pData;
 	}
 
@@ -71,12 +72,12 @@ namespace renaud
 	protected:
 		virtual void OnMessage(const std::string& rstrEvent, const std::string& rstrMessage)
 		{
-			for (TVecEventFunctions::iterator it = NodeEventFunctions[rstrEvent].begin(); it != NodeEventFunctions[rstrEvent].end(); ++it) {
-				SSendData* pData = new SSendData();
-				pData->strMessage = rstrMessage;
-				pData->m_func = *it;
-				uv_queue_work(uv_default_loop(), &pData->request, DoSendAsync, DoSendAsync2);
-			}
+			SSendData* pData = new SSendData();
+			pData->strMessage = rstrMessage;
+			pData->m_vecCB = NodeEventFunctions[rstrEvent];
+			pData->req.data = pData;
+
+			uv_queue_work(uv_default_loop(), &pData->req, DoSendAsync, DoSendAsync2);
 		}
 
 	private:

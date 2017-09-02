@@ -22,8 +22,9 @@ namespace renaud
 			Isolate* isolate = args.GetIsolate();
 
 			CPromiseData* pData = new CPromiseData(isolate);
-			if (!checkInputs(args, T::Def()))
+			if (!checkInputs(args, T::Def())) {
 				pData->Set("Wrong arguments", true);
+			}
 			else
 				pData->SetArgs(T::BuildArgs(args));
 

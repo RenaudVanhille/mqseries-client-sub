@@ -1,21 +1,21 @@
-const pub = require('./build/Release/mq_sub.node');
+const sub = require('./build/Release/mq_sub.node');
 
-function SendPub(i) {
-        return new Promise(
-                (resolve, reject) => {
-                        pub.send('message ' + i).then(
-                                () => { setTimeout(() => { return SendPub(++i); }, 1000) },
-                                (reason) => { reject(reason); }
-                        );
-                }
-        );
-}
+ sub.on('message', (message) => {
+                                console.log('(from index.js) message received : ' + message);
+                        });
 
-pub.init('QM1', 'sport').then(
+
+sub.init('QM1', 'sport').then(
         () => {
-			pub.on('message', (message) => {
-				console.log('message received : ' + message);
-			}
-		},
+
+                },
         (reason) => { console.error(reason); }
 );
+
+var http = require('http');
+
+var server = http.createServer(function(req, res) {
+  res.writeHead(200);
+  res.end('Salut tout le monde !');
+});
+server.listen(8080);

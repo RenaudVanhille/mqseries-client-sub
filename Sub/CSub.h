@@ -22,12 +22,21 @@ namespace renaud
 
 		void AddListener(ISubListener* pListener);
 		void RemoveListener(ISubListener* pListener);
-
+		
 	private:
+		static void* Loop(void* ptr);
+
 		typedef std::vector<ISubListener*> TVecListeners;
 		TVecListeners m_vecListeners;
 
 		void NotifyListeners(const std::string& rstrMessages);
+
+		MQHCONN m_Hcon;
+		MQHOBJ m_Hsub;
+		MQHOBJ m_Hobj;
+
+		pthread_t m_thread;
+		bool m_bStop;
 	};
 }
 
